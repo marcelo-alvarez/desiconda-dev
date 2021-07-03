@@ -10,17 +10,21 @@ set -x
 pushd $(dirname $0) > /dev/null
 topdir=$(pwd)
 popd > /dev/null
+
 scriptname=$(basename $0)
 fullscript="${topdir}/${scriptname}"
 
-echo $topdir
-exit
+if [[ -z "${testrun}" ]]; then
+  testrun=0
+fi
 
-CONFIGUREENV=conf/$CONF-env
-INSTALLPKGS=conf/$PGKS-pkgs
+CONFIGUREENV=$topdir/conf/$CONF-env
+INSTALLPKGS=$topdir/conf/$PKGS-pkgs
 
 CONDADIR=$PREFIX/conda
 MODULEDIR=$PREFIX/modulefiles/desiconda
+
+export PATH=$CONDADIR/bin/:$PATH
 
 # Initialize environment
 source $CONFIGUREENV
@@ -28,19 +32,10 @@ source $CONFIGUREENV
 # Install conda root environment
 echo Installing conda root environment at $(date)
 
-unset PYTHONPATH
+mkdir -p $CONDADIR/bin
+mkdir -p $CONDADIR/lib
+
 if [ $testrun -eq 0 ]
-then
-  curl -SL $MINICONDA \
-    -o miniconda.sh \
-    && /bin/bash miniconda.sh -b -f -p $CONDADIR \
-    && conda config --add channels intel \
-    && conda config --remove channels intel \
-    && conda install --copy --yes python=$PYVERSION \
-    && rm miniconda.sh \
-    && rm -rf $CONDADIR/pkgs/* \
-    && rm -f $CONDADIR/compiler_compat/ld
-elif [ $testrun -eq 1 ]
 then
   curl -SL $MINICONDA \
     -o miniconda.sh \
@@ -70,7 +65,7 @@ echo Installing the desiconda modulefile at $(date)
 MODULEDIR=$PREFIX/modulefiles/desiconda
 mkdir -p $MODULEDIR
 
-cp modulefile.gen desiconda.module
+cp $topdir/modulefile.gen desiconda.module
 
 sed -i 's@_CONDADIR_@'"$CONDADIR"'@g' desiconda.module
 sed -i 's@_CONDAVERSION_@'"$CONDAVERSION"'@g' desiconda.module
