@@ -1,0 +1,31 @@
+#%Module###<-magic cookie ####################################################
+##
+##   Software dependencies for the DESI spectroscopic pipeline.
+##
+##
+# variables for Tcl script use only
+set     version  _CONDAVERSION_
+
+module-whatis "Loads software dependencies for DESI spectro pipeline."
+
+proc ModulesHelp { } {
+  global version
+  puts stderr "\t\t DESI software dependencies - Version $version\n"
+  puts stderr "\t This loads a conda environment and other compiled"
+  puts stderr "\t software needed by the spectro pipeline."
+  puts stderr ""
+}
+
+conflict desiconda
+
+# This is set by OS python and gives us problems.
+unsetenv PYTHONSTARTUP
+
+# This is the conda environment location
+prepend-path PATH _CONDADIR_/bin
+setenv PYTHONPATH _CONDADIR_/lib/python_PYVERSION_/site-packages
+setenv DESICONDA _CONDADIR_
+setenv DESICONDA_VERSION _CONDAVERSION_
+
+# for basemap; see https://github.com/matplotlib/basemap/issues/419
+setenv PROJ_LIB _CONDADIR_/share/proj
