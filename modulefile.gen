@@ -27,5 +27,8 @@ setenv PYTHONPATH _CONDADIR_/lib/python_PYVERSION_/site-packages
 setenv DESICONDA _CONDADIR_
 setenv DESICONDA_VERSION _CONDAVERSION_
 
+# Add location of conda environment shared objects to search path
+prepend-path LD_LIBRARY_PATH _CONDADIR_/lib
+
 # for basemap; see https://github.com/matplotlib/basemap/issues/419
 setenv PROJ_LIB _CONDADIR_/share/proj

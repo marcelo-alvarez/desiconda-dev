@@ -18,13 +18,24 @@ if [[ -z "${testrun}" ]]; then
   testrun=0
 fi
 
-CONFIGUREENV=$topdir/conf/$CONF-env
-INSTALLPKGS=$topdir/conf/$PKGS-pkgs
+if [[ -z "${cleanconda}" ]]; then
+  cleanconda=0
+fi
+
+CONFDIR=$topdir/conf
+
+CONFIGUREENV=$CONFDIR/$CONF-env.sh
+INSTALLPKGS=$CONFDIR/$PKGS-pkgs.sh
 
 CONDADIR=$PREFIX/conda
 MODULEDIR=$PREFIX/modulefiles/desiconda
 
-export PATH=$CONDADIR/bin/:$PATH
+# delete any existing desiconda directory
+if [ $cleanconda -gt 0 ]; then
+  rm -rf $CONDADIR
+fi
+
+export PATH=$CONDADIR/bin:$PATH
 
 # Initialize environment
 source $CONFIGUREENV
@@ -32,26 +43,32 @@ source $CONFIGUREENV
 # Install conda root environment
 echo Installing conda root environment at $(date)
 
-mkdir -p $CONDADIR/bin
-mkdir -p $CONDADIR/lib
+if [ ! -d $CONDADIR ]; then
+  mkdir -p $CONDADIR/bin
+  mkdir -p $CONDADIR/lib
 
-if [ $testrun -eq 0 ]
-then
   curl -SL $MINICONDA \
     -o miniconda.sh \
     && /bin/bash miniconda.sh -b -f -p $CONDADIR \
     && rm miniconda.sh \
     && rm -rf $CONDADIR/pkgs/* \
     && rm -f $CONDADIR/compiler_compat/ld
-else
-  mkdir -p $CONDADIR
+
 fi
 
-# Install conda packages.
-if [ $testrun -eq 0 ]
+source $CONDADIR/bin/activate
+
+# Install packages
+if [ $testrun -eq 0 ];
 then
+  which conda
   source $INSTALLPKGS
 fi
+
+# Compile python modules
+echo Pre-compiling python modules at $(date)
+
+python$PYVERSION -m compileall -f "$CONDADIR/lib/python$PYVERSION/site-packages"
 
 # Set permissions
 echo Setting permissions at $(date)
