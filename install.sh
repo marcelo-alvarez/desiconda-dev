@@ -6,7 +6,6 @@ echo Starting desiconda installation at $(date)
 set -x
 
 # Script directory
-
 pushd $(dirname $0) > /dev/null
 topdir=$(pwd)
 popd > /dev/null
@@ -14,14 +13,7 @@ popd > /dev/null
 scriptname=$(basename $0)
 fullscript="${topdir}/${scriptname}"
 
-if [[ -z "${testrun}" ]]; then
-  testrun=0
-fi
-
-if [[ -z "${cleanconda}" ]]; then
-  cleanconda=0
-fi
-
+# Convenience environment variables
 CONFDIR=$topdir/conf
 
 CONFIGUREENV=$CONFDIR/$CONF-env.sh
@@ -29,11 +21,6 @@ INSTALLPKGS=$CONFDIR/$PKGS-pkgs.sh
 
 CONDADIR=$PREFIX/conda
 MODULEDIR=$PREFIX/modulefiles/desiconda
-
-# delete any existing desiconda directory
-if [ $cleanconda -gt 0 ]; then
-  rm -rf $CONDADIR
-fi
 
 export PATH=$CONDADIR/bin:$PATH
 
@@ -43,27 +30,20 @@ source $CONFIGUREENV
 # Install conda root environment
 echo Installing conda root environment at $(date)
 
-if [ ! -d $CONDADIR ]; then
-  mkdir -p $CONDADIR/bin
-  mkdir -p $CONDADIR/lib
+mkdir -p $CONDADIR/bin
+mkdir -p $CONDADIR/lib
 
-  curl -SL $MINICONDA \
-    -o miniconda.sh \
-    && /bin/bash miniconda.sh -b -f -p $CONDADIR \
-    && rm miniconda.sh \
-    && rm -rf $CONDADIR/pkgs/* \
-    && rm -f $CONDADIR/compiler_compat/ld
-
-fi
+curl -SL $MINICONDA \
+  -o miniconda.sh \
+  && /bin/bash miniconda.sh -b -f -p $CONDADIR \
+  && rm miniconda.sh \
+  && rm -rf $CONDADIR/pkgs/* \
+  && rm -f $CONDADIR/compiler_compat/ld
 
 source $CONDADIR/bin/activate
 
 # Install packages
-if [ $testrun -eq 0 ];
-then
-  which conda
-  source $INSTALLPKGS
-fi
+source $INSTALLPKGS
 
 # Compile python modules
 echo Pre-compiling python modules at $(date)
