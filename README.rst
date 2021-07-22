@@ -8,7 +8,17 @@ Introduction
 This package contains scripts for installing conda and all compiled
 dependencies needed by the spectroscopic pipeline.
 
+Quick start
+----------------
 
+On cori, run::
+
+    git clone https://github.com/marcelo-alvarez/desiconda-dev 
+    cd desiconda-dev
+    PREFIX=$HOME/desiconda-test CONF=default PKGS=default ./install.sh
+    module use $HOME/desiconda-test/modulefiles
+    module load desiconda
+    
 Example
 ----------------
 
