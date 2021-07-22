@@ -32,3 +32,18 @@ prepend-path LD_LIBRARY_PATH _CONDADIR_/lib
 
 # for basemap; see https://github.com/matplotlib/basemap/issues/419
 setenv PROJ_LIB _CONDADIR_/share/proj
+
+
+# in case on cori and if PrgEnv-intel is loaded, swap it out
+setenv CRAYPE_LINK_TYPE dynamic
+if [ module-info mode load ] {
+  if [ is-loaded PrgEnv-gnu ] {
+  } else {
+    if [ is-loaded PrgEnv-cray ] {
+      module swap PrgEnv-cray PrgEnv-gnu
+    }
+    if [ is-loaded PrgEnv-intel ] {
+      module swap PrgEnv-intel PrgEnv-gnu
+    }
+  }
+}

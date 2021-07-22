@@ -35,12 +35,11 @@ mkdir -p $CONDADIR/lib
 
 curl -SL $MINICONDA \
   -o miniconda.sh \
-  && /bin/bash miniconda.sh -b -f -p $CONDADIR \
-  && rm miniconda.sh \
-  && rm -rf $CONDADIR/pkgs/* \
-  && rm -f $CONDADIR/compiler_compat/ld
+  && /bin/bash miniconda.sh -b -f -p $CONDADIR
 
 source $CONDADIR/bin/activate
+export PYVERSION=`python get_version.py`
+echo Using Python version $PYVERSION
 
 # Install packages
 source $INSTALLPKGS
