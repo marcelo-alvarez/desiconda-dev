@@ -2,8 +2,6 @@
 echo Installing conda packages at $(date)
 echo condadir is $CONDADIR
 
-#&& \
-#conda install --copy --yes -c defaults --override-channels \
 conda install --copy --yes -c conda-forge --override-channels \
     fitsio \
     libblas=*=*mkl \
@@ -51,6 +49,7 @@ conda install --copy --yes -c conda-forge --override-channels \
     configobj \
     cupy \
     line_profiler \
+    galsim \
 && mplrc="$CONDADIR/lib/python$PYVERSION/site-packages/matplotlib/mpl-data/matplotlibrc"; \
     cat ${mplrc} | sed -e "s#^backend.*#backend : TkAgg#" > ${mplrc}.tmp; \
     mv ${mplrc}.tmp ${mplrc} \
