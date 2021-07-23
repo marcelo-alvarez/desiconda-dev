@@ -43,6 +43,14 @@ conda install --copy --yes -c conda-forge --override-channels \
     sphinx \
     iminuit \
     cudatoolkit \
+    cupy \
+    healpy \
+    photutils \
+    xlrd \
+    coveralls \
+    configobj \
+    cupy \
+    line_profiler \
 && mplrc="$CONDADIR/lib/python$PYVERSION/site-packages/matplotlib/mpl-data/matplotlibrc"; \
     cat ${mplrc} | sed -e "s#^backend.*#backend : TkAgg#" > ${mplrc}.tmp; \
     mv ${mplrc}.tmp ${mplrc} \
