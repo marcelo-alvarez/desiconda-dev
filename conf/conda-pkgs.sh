@@ -1,5 +1,5 @@
 # conda packages
-echo Installing conda packages at $(date)
+echo Current time $(date) Installing conda packages
 echo condadir is $CONDADIR
 
 conda install --copy --yes -c conda-forge --override-channels \
@@ -61,3 +61,4 @@ if [ $? != 0 ]; then
 fi
 
 conda list --export | grep -v conda > "$CONDADIR/pkg_list.txt"
+echo Current time $(date) Done installing conda packages
