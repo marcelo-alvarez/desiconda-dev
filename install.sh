@@ -1,9 +1,9 @@
 #!/bin/bash
 
-echo Current time $(date) Starting desiconda install
+echo Starting desiconda installation at $(date)
 
 # print commands as they are run so we know where we are if something fails
-# set -x
+set -x
 
 # Script directory
 pushd $(dirname $0) > /dev/null
@@ -28,7 +28,7 @@ export PATH=$CONDADIR/bin:$PATH
 source $CONFIGUREENV
 
 # Install conda root environment
-echo Current time $(date) Installing miniconda
+echo Installing conda root environment at $(date)
 
 mkdir -p $CONDADIR/bin
 mkdir -p $CONDADIR/lib
@@ -41,27 +41,22 @@ source $CONDADIR/bin/activate
 export PYVERSION=`python get_version.py`
 echo Using Python version $PYVERSION
 
-echo Current time $(date) Done installing miniconda
 # Install packages
-echo Current time $(date) Installing packages
 source $INSTALLPKGS
 
-echo Current time $(date) Done installing packages
 # Compile python modules
-echo Current time $(date) Pre-compiling modules
+echo Pre-compiling python modules at $(date)
 
 python$PYVERSION -m compileall -f "$CONDADIR/lib/python$PYVERSION/site-packages"
 
-echo Current time $(date) Done pre-compiling modules
 # Set permissions
-echo Current time $(date) Setting permissions
+echo Setting permissions at $(date)
 
 chgrp -R $GRP $CONDADIR
 chmod -R u=rwX,g=rX,o-rwx $CONDADIR
 
-echo Current time $(date) Done setting permissions
 # Install modulefile
-echo Current time $(date) Installing desiconda module
+echo Installing the desiconda modulefile at $(date)
 
 MODULEDIR=$PREFIX/modulefiles/desiconda
 mkdir -p $MODULEDIR
@@ -75,9 +70,8 @@ sed -i 's@_PYVERSION_@'"$PYVERSION"'@g' desiconda.module
 cp desiconda.module $MODULEDIR/$CONDAVERSION
 cp desiconda.modversion $MODULEDIR/.version_$CONDAVERSION
 
-# Change module permissions
 chgrp -R $GRP $MODULEDIR
 chmod -R u=rwX,g=rX,o-rwx $MODULEDIR
 
 # All done
-echo Current time $(date) Done at
+echo Done at $(date)
