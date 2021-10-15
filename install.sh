@@ -56,8 +56,8 @@ python$PYVERSION -m compileall -f "$CONDADIR/lib/python$PYVERSION/site-packages"
 # Set permissions
 echo Setting permissions at $(date)
 
-#chgrp -R $GRP $CONDADIR
-#chmod -R u=rwX,g=rX,o-rwx $CONDADIR
+chgrp -R $GRP $CONDADIR
+chmod -R u=rwX,g=rX,o-rwx $CONDADIR
 
 # Install modulefile
 echo Installing the desiconda modulefile at $(date)
@@ -75,7 +75,7 @@ sed -i 's@_PYVERSION_@'"$PYVERSION"'@g' desiconda.module
 cp desiconda.module $MODULEDIR/$CONDAVERSION
 cp desiconda.modversion $MODULEDIR/.version_$CONDAVERSION
 
-#chgrp -R $GRP $MODULEDIR
+chgrp -R $GRP $MODULEDIR
 chmod -R u=rwX,g=rX,o-rwx $MODULEDIR
 
 # All done
