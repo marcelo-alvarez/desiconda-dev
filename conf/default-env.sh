@@ -3,3 +3,4 @@
 export MINICONDA=https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-$(uname)-$(uname -m).sh
 export CONDAVERSION=2.0
 export GRP=desi
+export MPICC="cc -shared" # needed for mpi4py 

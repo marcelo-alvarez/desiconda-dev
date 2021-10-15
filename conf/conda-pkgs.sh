@@ -3,6 +3,8 @@ echo Current time $(date) Installing conda packages
 echo condadir is $CONDADIR
 
 conda install --copy --yes -c conda-forge --override-channels \
+    astropy \
+    speclite \
     fitsio \
     libblas=*=*mkl \
     dask \
@@ -19,7 +21,6 @@ conda install --copy --yes -c conda-forge --override-channels \
     matplotlib \
     seaborn \
     pyyaml \
-    astropy \
     pytest-astropy \
     hdf5 \
     h5py \
