@@ -1,5 +1,5 @@
 ===========
-desiconda
+desiconda2
 ===========
 
 Introduction
@@ -13,8 +13,8 @@ Quick start
 
 On cori, run::
 
-    git clone https://github.com/marcelo-alvarez/desiconda-dev 
-    cd desiconda-dev
+    git clone https://github.com/marcelo-alvarez/desiconda2 /path-to-git-clone/desiconda2
+    cd /path-to-git-clone/desiconda2
     PREFIX=$HOME/desiconda-test CONF=default PKGS=default ./install.sh
     module use $HOME/desiconda-test/modulefiles
     module load desiconda
@@ -24,14 +24,17 @@ Example
 
 Imagine you wanted to install a set of dependencies for DESI software on a
 cluster (rather than manually getting all the dependencies in place).  
-You followed the section below and created a config file for your machine
-called "myenv-env" and put it in the conf directory.  You plan on installing
-desiconda in your home directory ($HOME/software/desi).  Since you downloaded
-the latest tagged version (2.0) of desiconda, you are happy with the 
-automatic version string that will be used for the install prefix.  The 
-spectro pipeline primarily works with python3, so that is what you specified 
-in your "myenv-env" config. You also put all the commands for dependencies you want
-to install in your "mypkgs-pkg" config. 
+You plan on installing desiconda in your home directory ($HOME/software/desi).  
+Since you git-cloned the latest tagged version of desiconda using::
+
+    git clone https://github.com/marcelo-alvarez/desiconda2 /path-to-git-clone/desiconda2
+
+you are happy with the corresponding version string for the install prefix.  
+The spectro pipeline primarily works with python3, so that is what you specified 
+in the "conf/myenv-env.sh" file you created (based on the existing 
+conf/default-env.sh). You also put all the commands for dependencies you 
+want to install in the "conf/mypkgs-pkgs.sh" file you created (based on the 
+existing conf/mypkgs-pkgs.sh). 
 
 This install.sh script, in the top-level directory, will create the environment and
 install the dependencies and module files. When you run this script, it will
@@ -39,7 +42,7 @@ download many MB of binary and source packages, extract files, and compile thing
 It will do this in your current working directory.
 Also the output will be very long, so pipe it to a log file::
 
-    $> PREFIX=$HOME/software/desi CONF=myenv PKGS=mypkgs ~/desiconda/install.sh 2>&1 | tee log
+    $> PREFIX=$HOME/software/desi CONF=myenv PKGS=mypkgs /path-to-git-clone/desiconda2/install.sh 2>&1 | tee log
 
 After this runs, the script should clean up after itself and the only file 
 remaining should be the log file.  If other files exist, then something went
@@ -92,7 +95,7 @@ we can look at it afterwards if there are any problems::
     $> cd $SCRATCH
     $> mkdir build
     $> cd build
-    $> PREFIX=$HOME/software/desi CONF=myenv PKGS=mypkgs /path/to/git/desiconda/install.sh >log 2>&1 &
+    $> PREFIX=$HOME/software/desi CONF=myenv PKGS=mypkgs /path/to/git/desiconda2/install.sh >log 2>&1 &
     $> tail -f log
 
 After installation, the $PREFIX directory will contain directories
