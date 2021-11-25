@@ -14,6 +14,8 @@ scriptname=$(basename $0)
 fullscript="${topdir}/${scriptname}"
 
 # Convenience environment variables
+SWAPPRGENV=$topdir/scripts/SwapPrgEnv.sh
+
 CONFDIR=$topdir/conf
 
 CONFIGUREENV=$CONFDIR/$CONF-env.sh
@@ -27,6 +29,9 @@ export PATH=$CONDADIR/bin:$PATH
 
 # Initialize environment
 source $CONFIGUREENV
+
+# Swap modules
+source $SWAPPRGENV
 
 # Install conda root environment
 echo Installing conda root environment at $(date)
@@ -71,6 +76,7 @@ sed -i 's@_CONDADIR_@'"$CONDADIR"'@g' desiconda.module
 sed -i 's@_AUXDIR_@'"$AUXDIR"'@g' desiconda.module
 sed -i 's@_CONDAVERSION_@'"$CONDAVERSION"'@g' desiconda.module
 sed -i 's@_PYVERSION_@'"$PYVERSION"'@g' desiconda.module
+sed -i 's@_CONDAPRGENV_@'"$CONDAPRGENV"'@g' desiconda.module
 
 cp desiconda.module $MODULEDIR/$CONDAVERSION
 cp desiconda.modversion $MODULEDIR/.version_$CONDAVERSION

@@ -17,7 +17,7 @@ conda install --copy --yes -c conda-forge --override-channels \
     cmake \
     numpy \
     scipy \
-    mkl=2020.0 \
+    mkl \
     matplotlib \
     seaborn \
     pyyaml \
@@ -51,6 +51,8 @@ conda install --copy --yes -c conda-forge --override-channels \
     cupy \
     line_profiler \
     galsim \
+&& conda install --copy --yes -c anaconda \
+    intel-openmp \
 && mplrc="$CONDADIR/lib/python$PYVERSION/site-packages/matplotlib/mpl-data/matplotlibrc"; \
     cat ${mplrc} | sed -e "s#^backend.*#backend : TkAgg#" > ${mplrc}.tmp; \
     mv ${mplrc}.tmp ${mplrc} \

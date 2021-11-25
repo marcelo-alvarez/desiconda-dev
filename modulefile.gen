@@ -35,16 +35,19 @@ prepend-path LD_LIBRARY_PATH _AUXDIR_/lib
 setenv PROJ_LIB _CONDADIR_/share/proj
 
 
-# in case on cori and if PrgEnv-intel is loaded, swap it out
+# in case on cori and if PrgEnv-_CONDAPRGENV_ is not loaded, swap it in
 setenv CRAYPE_LINK_TYPE dynamic
 if [ module-info mode load ] {
-  if [ is-loaded PrgEnv-gnu ] {
+  if [ is-loaded PrgEnv-_CONDAPRGENV_ ] {
   } else {
     if [ is-loaded PrgEnv-cray ] {
-      module swap PrgEnv-cray PrgEnv-gnu
+      module swap PrgEnv-cray  PrgEnv-_CONDAPRGENV_
     }
     if [ is-loaded PrgEnv-intel ] {
-      module swap PrgEnv-intel PrgEnv-gnu
+      module swap PrgEnv-intel PrgEnv-_CONDAPRGENV_
+    }
+    if [ is-loaded PrgEnv-gnu ] {
+      module swap PrgEnv-gnu   PrgEnv-_CONDAPRGENV_
     }
   }
 }
