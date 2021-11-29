@@ -34,7 +34,6 @@ prepend-path LD_LIBRARY_PATH _AUXDIR_/lib
 # for basemap; see https://github.com/matplotlib/basemap/issues/419
 setenv PROJ_LIB _CONDADIR_/share/proj
 
-
 # in case on cori and if PrgEnv-_CONDAPRGENV_ is not loaded, swap it in
 setenv CRAYPE_LINK_TYPE dynamic
 if [ module-info mode load ] {
@@ -51,3 +50,17 @@ if [ module-info mode load ] {
     }
   }
 }
+
+# libraries that may need to be pre loaded 
+set preldlibs(0) _CONDADIR_/lib/libmkl_core.so
+set preldlibs(1) _CONDADIR_/lib/libmkl_intel_thread.so
+set preldlibs(2) _CONDADIR_/lib/libmkl_intel_lp64.so
+set preldlibs(3) _CONDADIR_/lib/libiomp5.so
+
+# load libraries
+foreach {n lib} [array get preldlibs] {
+  if [file exists $lib] {
+    setenv LD_PRELOAD $lib:$env(LD_PRELOAD)
+  }
+}
+
