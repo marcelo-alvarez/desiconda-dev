@@ -58,9 +58,12 @@ set preldlibs(2) _CONDADIR_/lib/libmkl_intel_lp64.so
 set preldlibs(3) _CONDADIR_/lib/libiomp5.so
 
 # load libraries
-foreach {n lib} [array get preldlibs] {
-  if [file exists $lib] {
-    setenv LD_PRELOAD $lib:$env(LD_PRELOAD)
+foreach {n preldlib} [array get preldlibs] {
+  if [file exists $preldlib] {
+    if { [info exists ::env(LD_PRELOAD)] } {
+      setenv LD_PRELOAD $preldlib:$env(LD_PRELOAD)
+    } else {
+      setenv LD_PRELOAD $preldlib
+    }
   }
 }
-
