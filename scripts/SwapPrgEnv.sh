@@ -1,4 +1,4 @@
-loaded=`${MODULESHOME}/bin/modulecmd sh -t list 2>&1 | grep PrgEnv-"$CONDAPRGENV`
+loaded=`${MODULESHOME}/bin/modulecmd sh -t list 2>&1 | grep PrgEnv-"$CONDAPRGENV"`
 
 loadedgnu=`${MODULESHOME}/bin/modulecmd sh -t list 2>&1 | grep PrgEnv-gnu`
 loadedintel=`${MODULESHOME}/bin/modulecmd sh -t list 2>&1 | grep PrgEnv-intel`

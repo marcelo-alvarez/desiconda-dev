@@ -1,9 +1,13 @@
 #!/bin/bash
 
+while getopts "v" opt; do
+    case $opt in
+	v) set -x # print commands as they are run so we know where we are if something fails
+	   ;;
+    esac
+done
 echo Starting desiconda installation at $(date)
-
-# print commands as they are run so we know where we are if something fails
-set -x
+SECONDS=0
 
 # Script directory
 pushd $(dirname $0) > /dev/null
@@ -86,3 +90,5 @@ chmod -R u=rwX,g=rX,o-rwx $MODULEDIR
 
 # All done
 echo Done at $(date)
+duration=$SECONDS
+echo "Installation took $(($duration / 60)) minutes and $(($duration % 60)) seconds."
