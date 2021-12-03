@@ -49,6 +49,9 @@ if [ module-info mode load ] {
       module swap PrgEnv-gnu   PrgEnv-_CONDAPRGENV_
     }
   }
+  module unload darshan            # not necessary and suspected to generate overhead
+  module unload altd               # not necessary and suspected to cause random job hangs
+  module unload craype-hugepages2M # https://docs.nersc.gov/development/languages/python/faq-troubleshooting
 }
 
 # libraries that may need to be pre loaded 
@@ -67,3 +70,8 @@ foreach {n preldlib} [array get preldlibs] {
     }
   }
 }
+
+
+
+
+
