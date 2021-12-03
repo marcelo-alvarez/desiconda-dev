@@ -12,7 +12,6 @@ export CFLAGS="-O3 -fPIC -pthread"
 export FCFLAGS="-O3 -fPIC -pthread -fexceptions"
 export NTMAKE=8
 
-module unload darshan
-module unload altd
-module unload craype-hugepages2M
-export CRAYPE_LINK_TYPE=dynamic
+module unload darshan            # not necessary and suspected to generate overhead
+module unload altd               # not necessary and suspected to cause random job hangs
+module unload craype-hugepages2M # https://docs.nersc.gov/development/languages/python/faq-troubleshooting
