@@ -34,7 +34,10 @@ prepend-path LD_LIBRARY_PATH _AUXDIR_/lib
 # for basemap; see https://github.com/matplotlib/basemap/issues/419
 setenv PROJ_LIB _CONDADIR_/share/proj
 
-# in case on cori and if PrgEnv-_CONDAPRGENV_ is not loaded, swap it in
+# for performance on KNL; see https://github.com/desihub/desiutil/issues/180
+setenv SLURM_CPU_BIND cores
+
+# in case PrgEnv-_CONDAPRGENV_ is not loaded, swap it in
 setenv CRAYPE_LINK_TYPE dynamic
 if [ module-info mode load ] {
   if [ is-loaded PrgEnv-_CONDAPRGENV_ ] {
