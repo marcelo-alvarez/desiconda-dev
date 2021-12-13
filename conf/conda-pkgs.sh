@@ -17,7 +17,7 @@ conda install --copy --yes -c conda-forge --override-channels \
     cmake \
     numpy \
     scipy \
-    mkl \
+    mkl=2020.0 \
     matplotlib \
     seaborn \
     pyyaml \
@@ -51,6 +51,8 @@ conda install --copy --yes -c conda-forge --override-channels \
     cupy \
     line_profiler \
     galsim \
+    altair \
+    vega_datasets \
 && conda install --copy --yes -c anaconda \
     intel-openmp \
 && mplrc="$CONDADIR/lib/python$PYVERSION/site-packages/matplotlib/mpl-data/matplotlibrc"; \
