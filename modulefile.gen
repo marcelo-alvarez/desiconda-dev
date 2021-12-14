@@ -4,7 +4,7 @@
 ##
 ##
 # variables for Tcl script use only
-set     version  _CONDAVERSION_
+set     version  _DCONDAVERSION_
 
 module-whatis "Loads software dependencies for DESI spectro pipeline."
 
@@ -26,7 +26,7 @@ prepend-path PATH _CONDADIR_/bin
 prepend-path PATH _AUXDIR_/bin
 setenv PYTHONPATH _CONDADIR_/lib/python_PYVERSION_/site-packages
 setenv DESICONDA _CONDADIR_
-setenv DESICONDA_VERSION _CONDAVERSION_
+setenv DESICONDA_VERSION _DCONDAVERSION_
 
 # Add location of conda environment shared objects to search path
 prepend-path LD_LIBRARY_PATH _AUXDIR_/lib

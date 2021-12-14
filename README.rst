@@ -15,7 +15,7 @@ On cori, run::
 
     git clone https://github.com/marcelo-alvarez/desiconda2 /path-to-git-clone/desiconda2
     cd /path-to-git-clone/desiconda2
-    PREFIX=$HOME/desiconda-test CONF=default PKGS=default ./install.sh
+    DCONDAVERSION=$(data '+%Y%m%d')-2.0.0 PREFIX=$HOME CONF=default PKGS=default ./install.sh
     module use $HOME/desiconda-test/modulefiles
     module load desiconda
     

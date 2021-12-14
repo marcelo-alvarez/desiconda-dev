@@ -9,6 +9,10 @@ done
 echo Starting desiconda installation at $(date)
 SECONDS=0
 
+# Defaults
+if [ -z $CONF ] ; then CONF=default; fi
+if [ -z $PKGS ] ; then PKGS=default; fi
+
 # Script directory
 pushd $(dirname $0) > /dev/null
 topdir=$(pwd)
@@ -25,10 +29,6 @@ CONFDIR=$topdir/conf
 CONFIGUREENV=$CONFDIR/$CONF-env.sh
 INSTALLPKGS=$CONFDIR/$PKGS-pkgs.sh
 
-CONDADIR=$PREFIX/conda
-AUXDIR=$PREFIX/aux
-MODULEDIR=$PREFIX/modulefiles/desiconda
-
 export PATH=$CONDADIR/bin:$PATH
 
 # Initialize environment
@@ -36,6 +36,12 @@ source $CONFIGUREENV
 
 # Swap modules
 source $SWAPPRGENV
+
+# Set installation directories
+DESICONDA=$PREFIX/$DCONDAVERSION
+CONDADIR=$DESICONDA/conda
+AUXDIR=$DESICONDA/aux
+MODULEDIR=$DESICONDA/modulefiles/desiconda
 
 # Install conda root environment
 echo Installing conda root environment at $(date)
@@ -78,12 +84,12 @@ cp $topdir/modulefile.gen desiconda.module
 
 sed -i 's@_CONDADIR_@'"$CONDADIR"'@g' desiconda.module
 sed -i 's@_AUXDIR_@'"$AUXDIR"'@g' desiconda.module
-sed -i 's@_CONDAVERSION_@'"$CONDAVERSION"'@g' desiconda.module
+sed -i 's@_DCONDAVERSION_@'"$DCONDAVERSION"'@g' desiconda.module
 sed -i 's@_PYVERSION_@'"$PYVERSION"'@g' desiconda.module
 sed -i 's@_CONDAPRGENV_@'"$CONDAPRGENV"'@g' desiconda.module
 
-cp desiconda.module $MODULEDIR/$CONDAVERSION
-cp desiconda.modversion $MODULEDIR/.version_$CONDAVERSION
+cp desiconda.module $MODULEDIR/$DCONDAVERSION
+cp desiconda.modversion $MODULEDIR/.version_$DCONDAVERSION
 
 chgrp -R $GRP $MODULEDIR
 chmod -R u=rwX,g=rX,o-rwx $MODULEDIR
