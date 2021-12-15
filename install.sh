@@ -77,7 +77,6 @@ chmod -R u=rwX,g=rX,o-rwx $CONDADIR
 # Install modulefile
 echo Installing the desiconda modulefile at $(date)
 
-MODULEDIR=$PREFIX/modulefiles/desiconda
 mkdir -p $MODULEDIR
 
 cp $topdir/modulefile.gen desiconda.module
