@@ -57,7 +57,7 @@ curl -SL $MINICONDA \
   && /bin/bash miniconda.sh -b -f -p $CONDADIR
 
 source $CONDADIR/bin/activate
-export PYVERSION=`python get_version.py`
+export PYVERSION=$(python -c "import sys; print(str(sys.version_info[0])+'.'+str(sys.version_info[1]))")
 echo Using Python version $PYVERSION
 
 # Install packages
